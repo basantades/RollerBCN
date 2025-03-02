@@ -28,7 +28,9 @@ import { Observable } from 'rxjs';
 //   }
 // }
 export class EventsService {
-  private apiUrl = 'http://localhost:5100/events'; // URL del backend
+  // private apiUrl = 'http://localhost:5100/events'; // URL del backend
+
+  private apiUrl = 'https://api-rollerbcn.onrender.com/events';
 
   constructor(private http: HttpClient) { }
 
