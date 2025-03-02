@@ -32,7 +32,14 @@ export class CalendarioComponent {
   constructor(private eventsService: EventsService) { }
 
   ngOnInit() {
-    this.calendarOptions.events = this.eventsService.getEvents();
+    this.eventsService.getEvents().subscribe(
+      (data) => {
+        this.calendarOptions.events = data; // Asigna los eventos al calendario
+      },
+      (error) => {
+        console.error('Error al obtener eventos:', error);
+      }
+    );
   }
 
 }
