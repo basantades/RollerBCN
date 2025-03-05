@@ -20,7 +20,6 @@ export class CalendarioComponent {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
     locale: esLocale,
-    dateClick: (arg) => this.handleDateClick(arg),
     eventColor: '#FF0000',
     events: [],
     contentHeight: 'auto',
@@ -48,11 +47,6 @@ export class CalendarioComponent {
     }
   };
   
-  handleDateClick(arg: DateClickArg) {
-    alert('date click! ' + arg.dateStr )
-  }
-  
-
   constructor(private eventsService: EventsService) { }
 
   ngOnInit() {
