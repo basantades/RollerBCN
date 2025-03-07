@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class EventsService {
-  // private apiUrl = 'http://localhost:5100/events'; // URL del backend
 
-  private apiUrl = 'https://api-rollerbcn.onrender.com/events';
+  private apiUrl = `${API_BASE_URL}/eventes`;
 
   constructor(private http: HttpClient) { }
 
