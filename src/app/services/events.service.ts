@@ -9,7 +9,7 @@ import { API_BASE_URL } from '../api-config';
 
 export class EventsService {
 
-  private apiUrl = `${API_BASE_URL}/eventes`;
+  private apiUrl = `${API_BASE_URL}/events`;
 
   constructor(private http: HttpClient) { }
 
