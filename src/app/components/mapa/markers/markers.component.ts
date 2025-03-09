@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
+import { Ubicacion } from '../../../interfaces/ubicacion';
 
 @Component({
   selector: 'app-markers',
@@ -9,7 +10,8 @@ import * as L from 'leaflet';
 })
 
 export class MarkersComponent implements OnChanges {
-  @Input() map!: L.Map; // Recibe el objeto map desde el componente padre
+  @Input() map!: L.Map; 
+  @Input() ubicaciones: Ubicacion[] = [];
   // private customIcon: L.Icon;
 
   constructor() {
@@ -25,14 +27,29 @@ export class MarkersComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // Cuando el mapa esté disponible, añadir los marcadores
-    if (changes['map'] && this.map) {
-      this.addMarkers();
+    if ((changes['map'] || changes['ubicaciones']) && this.map) {
+        this.addMarkers();
     }
   }
 
+  // private addMarkers(): void {
+  //   const marker = L.marker([41.3851, 2.1734]).addTo(this.map);
+  //   marker.bindPopup('<b>¡Hola!</b><br>Este es un marcador');
+  // }
   private addMarkers(): void {
-    // const marker = L.marker([41.3851, 2.1734], { icon: this.customIcon }).addTo(this.map);
-    const marker = L.marker([41.3851, 2.1734]).addTo(this.map);
-    marker.bindPopup('<b>¡Hola!</b><br>Este es un marcador');
+    // Limpiar marcadores existentes 
+    this.map.eachLayer((layer) => {
+      if (layer instanceof L.Marker) {
+        this.map.removeLayer(layer);
+      }
+    });
+    if (this.ubicaciones) {
+    this.ubicaciones.forEach((ubicacion) => {
+      // const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud], { icon: this.customIcon }).addTo(this.map);
+      const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud]).addTo(this.map);
+
+      marker.bindPopup(`<b>${ubicacion.nombre}</b>`);
+    });
+  }
   }
 }

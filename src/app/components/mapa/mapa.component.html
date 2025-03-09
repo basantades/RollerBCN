@@ -1,12 +1,13 @@
 <div id="map" class="w-full h-[600px]"></div>
-<app-markers [map]="map"></app-markers>
+@if (map()) {
+  <app-markers [map]="map()!" [ubicaciones]="ubicaciones() ?? []"></app-markers>
+}
 
-
-<div class="p-4">
+<!-- <div class="p-4">
     <h2 class="text-xl font-bold">Lista de Ubicaciones</h2>
     <ul>
         @for (ubicacion of ubicaciones; track ubicacion._id) {
           <li>{{ ubicacion.nombre }}</li>
         }
       </ul>
-  </div>
+  </div> -->
