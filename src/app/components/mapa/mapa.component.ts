@@ -43,8 +43,8 @@ export class MapaComponent implements AfterViewInit {
 
   private initMap(): void {
     const map = L.map('map', {
-      center: [41.3851, 2.1734],
-      zoom: 14
+      center: [41.3951, 2.1734],
+      zoom: 12
     });    
 
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {

@@ -12,17 +12,17 @@ import { Ubicacion } from '../../../interfaces/ubicacion';
 export class MarkersComponent implements OnChanges {
   @Input() map!: L.Map; 
   @Input() ubicaciones: Ubicacion[] = [];
-  // private customIcon: L.Icon;
+  private customIcon: L.Icon;
 
   constructor() {
     // Definir el ícono personalizado
-    // this.customIcon = L.icon({
-    //   iconUrl: 'assets/images/custom-marker.png',
-    //   iconSize: [32, 32],
-    //   iconAnchor: [16, 32],
-    //   popupAnchor: [0, -32],
-    //   shadowUrl: null
-    // });
+    this.customIcon = L.icon({
+      iconUrl: 'assets/img/marker-icon-roller.png',
+      // iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [0, -41],
+      shadowUrl: 'assets/img/marker-shadow.png'
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,8 +45,8 @@ export class MarkersComponent implements OnChanges {
     });
     if (this.ubicaciones) {
     this.ubicaciones.forEach((ubicacion) => {
-      // const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud], { icon: this.customIcon }).addTo(this.map);
-      const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud]).addTo(this.map);
+      const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud], { icon: this.customIcon }).addTo(this.map);
+      // const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud]).addTo(this.map);
 
       marker.bindPopup(`<b>${ubicacion.nombre}</b>`);
     });
