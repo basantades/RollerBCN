@@ -1,1 +1,10 @@
-<p>graficos works!</p>
+<div class="flex flex-col lg:flex-row items-center gap-5 lg:gap-12 max-w-[1200px] mx-auto px-4 py-6 justify-center">  
+<div class="chart-container">
+    <canvas
+      baseChart
+      [data]="barChartData"
+      [type]="barChartType"
+      [options]="barChartOptions">
+    </canvas>
+  </div>
+</div>
