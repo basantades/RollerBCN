@@ -1,0 +1,14 @@
+@keyframes logoSlideLeftToRight {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .logo-slide-left {
+    animation: logoSlideLeftToRight 1s ease-out forwards;
+  }

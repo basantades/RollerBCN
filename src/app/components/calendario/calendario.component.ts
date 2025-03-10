@@ -19,7 +19,6 @@ export class CalendarioComponent {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
     locale: esLocale,
-    eventColor: '#FF0000',
     events: [],
     contentHeight: 'auto',
     eventContent: (arg) => {
