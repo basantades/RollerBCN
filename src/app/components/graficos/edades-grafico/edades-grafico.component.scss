@@ -1,0 +1,15 @@
+.chart-container {
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    max-width: 800px;
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 174, 255, 0.3); // Sombra azul para coincidir con el tema
+  }
+  
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
