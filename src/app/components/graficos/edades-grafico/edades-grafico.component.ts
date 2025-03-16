@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-
+import { ChartsService } from '../../../services/charts.service';
+import { Chart } from '../../../interfaces/chart';
+import { take } from 'rxjs';
 @Component({
   selector: 'app-edades-grafico',
   imports: [BaseChartDirective],
@@ -9,7 +11,7 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
   templateUrl: './edades-grafico.component.html',
   styleUrl: './edades-grafico.component.scss'
 })
-export class EdadesGraficoComponent implements OnInit {
+export class EdadesGraficoComponent {
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     maintainAspectRatio: false,
@@ -44,11 +46,11 @@ export class EdadesGraficoComponent implements OnInit {
   };
 
   public pieChartType: ChartType = 'doughnut'; 
-  public pieChartData: ChartConfiguration['data'] = {
-    labels: ['5-14', '15-24', '25-34', '35-44', '45+'],
+  public pieChartData = signal<ChartConfiguration['data']>({
+        labels: [],
     datasets: [
       {
-        data: [15, 20, 35, 22, 8], 
+        data: [], 
         backgroundColor: [
           '#ff0080', 
           '#cc00ff', 
@@ -73,7 +75,26 @@ export class EdadesGraficoComponent implements OnInit {
         ]
       }
     ]
-  };
+  });
 
-  ngOnInit(): void {}
+  constructor(private chartsService: ChartsService) {
+    // Cargar los datos al inicializar el componente
+    this.chartsService.getChartByName('edades').pipe(take(1)).subscribe({
+      next: (chart: Chart) => {
+        const newData: ChartConfiguration['data'] = {
+          labels: chart.data.map(item => item.label),
+          datasets: [{
+            ...this.pieChartData().datasets[0], // Copia del dataset existente
+            data: chart.data.map(item => item.value)
+          }]
+        };
+        this.pieChartData.set(newData); // Actualizamos la Signal
+      },
+      error: (error) => {
+        console.error('Error loading chart data:', error);
+        // Opcional: Manejar el error mostrando un mensaje al usuario
+      }
+    });
+  }
 }
+
