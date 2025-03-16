@@ -1,32 +1,140 @@
-<div class="bg-white p-4 rounded-lg shadow-lg absolute top-4 right-4 z-[1000]">
-    <h3 class="text-lg font-bold mb-2">Filtrar por categoría</h3>
-    <div class="space-y-2">
-      <label class="flex items-center space-x-2 cursor-pointer">
-        <input
-          type="checkbox"
-          class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-          [(ngModel)]="filters['Iniciación']"
-          (change)="emitFilters()"
-        />
-        <span class="text-gray-700">Iniciación</span>
+<div class="absolute top-4 right-4 z-[1000] w-64 md:w-auto">
+  <!-- Versión móvil: Desplegable con <details> -->
+  <div class="md:hidden">
+    <details class="bg-gray-900 text-white p-2 rounded-lg shadow-lg">
+      <summary class="flex items-center justify-between p-2 bg-gray-900 text-white rounded-t-lg cursor-pointer list-none">
+        <span class="text-lg font-bold">Filtros</span>
+        <svg
+          class="w-5 h-5 text-gray-200 transform transition-transform duration-300"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </summary>
+      <div class="space-y-4 my-2">
+        <!-- Iniciación (Verde eléctrico) -->
+        <label class="flex items-center space-x-3 cursor-pointer px-2">
+          <div class="relative">
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              [(ngModel)]="filters['Iniciación']"
+              (change)="emitFilters()"
+            />
+            <div
+              class="w-10 h-6 bg-gray-700 rounded-full peer peer-checked:bg-green-500 transition-colors duration-300"
+            ></div>
+            <div
+              class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-4"
+            ></div>
+          </div>
+          <span class="text-gray-200 text-lg">Iniciación</span>
+        </label>
+
+        <!-- Intermedio (Azul eléctrico) -->
+        <label class="flex items-center space-x-3 cursor-pointer px-2">
+          <div class="relative">
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              [(ngModel)]="filters['Intermedio']"
+              (change)="emitFilters()"
+            />
+            <div
+              class="w-10 h-6 bg-gray-700 rounded-full peer peer-checked:bg-sky-500 transition-colors duration-300"
+            ></div>
+            <div
+              class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-4"
+            ></div>
+          </div>
+          <span class="text-gray-200 text-lg">Intermedio</span>
+        </label>
+
+        <!-- Avanzado (Lila/Fucsia) -->
+        <label class="flex items-center space-x-3 cursor-pointer px-2">
+          <div class="relative">
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              [(ngModel)]="filters['Avanzado']"
+              (change)="emitFilters()"
+            />
+            <div
+              class="w-10 h-6 bg-gray-700 rounded-full peer peer-checked:bg-fuchsia-500 transition-colors duration-300"
+            ></div>
+            <div
+              class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-4"
+            ></div>
+          </div>
+          <span class="text-gray-200 text-lg">Avanzado</span>
+        </label>
+      </div>
+    </details>
+  </div>
+
+  <!-- Versión escritorio: Diseño original -->
+  <div class="hidden md:block bg-gray-900 text-white p-4 rounded-lg shadow-lg">
+    <h3 class="text-lg font-bold mb-4">Filtrar por categoría</h3>
+    <div class="space-y-4">
+      <!-- Iniciación (Verde eléctrico) -->
+      <label class="flex items-center space-x-3 cursor-pointer">
+        <div class="relative">
+          <input
+            type="checkbox"
+            class="sr-only peer"
+            [(ngModel)]="filters['Iniciación']"
+            (change)="emitFilters()"
+          />
+          <div
+            class="w-10 h-6 bg-gray-700 rounded-full peer peer-checked:bg-green-500 transition-colors duration-300"
+          ></div>
+          <div
+            class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-4"
+          ></div>
+        </div>
+        <span class="text-gray-200 text-lg">Iniciación</span>
       </label>
-      <label class="flex items-center space-x-2 cursor-pointer">
-        <input
-          type="checkbox"
-          class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-          [(ngModel)]="filters['Intermedio']"
-          (change)="emitFilters()"
-        />
-        <span class="text-gray-700">Intermedio</span>
+
+      <!-- Intermedio (Azul eléctrico) -->
+      <label class="flex items-center space-x-3 cursor-pointer">
+        <div class="relative">
+          <input
+            type="checkbox"
+            class="sr-only peer"
+            [(ngModel)]="filters['Intermedio']"
+            (change)="emitFilters()"
+          />
+          <div
+            class="w-10 h-6 bg-gray-700 rounded-full peer peer-checked:bg-sky-500 transition-colors duration-300"
+          ></div>
+          <div
+            class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-4"
+          ></div>
+        </div>
+        <span class="text-gray-200 text-lg">Intermedio</span>
       </label>
-      <label class="flex items-center space-x-2 cursor-pointer">
-        <input
-          type="checkbox"
-          class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-          [(ngModel)]="filters['Avanzado']"
-          (change)="emitFilters()"
-        />
-        <span class="text-gray-700">Avanzado</span>
+
+      <!-- Avanzado (Lila/Fucsia) -->
+      <label class="flex items-center space-x-3 cursor-pointer">
+        <div class="relative">
+          <input
+            type="checkbox"
+            class="sr-only peer"
+            [(ngModel)]="filters['Avanzado']"
+            (change)="emitFilters()"
+          />
+          <div
+            class="w-10 h-6 bg-gray-700 rounded-full peer peer-checked:bg-fuchsia-500 transition-colors duration-300"
+          ></div>
+          <div
+            class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-4"
+          ></div>
+        </div>
+        <span class="text-gray-200 text-lg">Avanzado</span>
       </label>
     </div>
   </div>
+</div>

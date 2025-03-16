@@ -65,7 +65,6 @@ export class MapaComponent implements AfterViewInit {
       this.ubicaciones$ = this.ubicacionesService.getUbicaciones();
       this.ubicaciones$.subscribe({
         next: (ubicaciones: Ubicacion[]) => {
-          console.log('Ubicaciones cargadas:', ubicaciones);
           this.ubicaciones.set(ubicaciones);
         },
         error: (error: any) => {

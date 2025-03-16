@@ -1,0 +1,11 @@
+details summary::-webkit-details-marker {
+    display: none; /* Oculta la flecha por defecto en navegadores WebKit */
+  }
+  
+  details summary {
+    list-style: none; /* Oculta la flecha por defecto en otros navegadores */
+  }
+  
+  details[open] svg {
+    transform: rotate(180deg);
+  }

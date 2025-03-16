@@ -46,7 +46,6 @@ export class MarkersComponent {
     });
 
     effect(() => {
-      console.log('Effect disparado - Map:', this.map, 'Ubicaciones:', this.ubicaciones(), 'Filters:', this.filters());
       if (this.map && this.ubicaciones() && this.ubicaciones()!.length > 0 && this.filters()) {
         this.addMarkers();
       }
@@ -63,7 +62,6 @@ export class MarkersComponent {
     });
     this.ubicaciones()!.forEach((ubicacion) => {
       const shouldShow = ubicacion.categoria.some((cat) => this.filters()[cat]);
-      console.log('Ubicación:', ubicacion.nombre, 'Categorías:', ubicacion.categoria, 'Mostrar:', shouldShow);
       if (!shouldShow) return;
 
       let icon: L.Icon;
