@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { ChartsService } from '../../../services/charts.service';
+import { take } from 'rxjs';
+import { Chart } from '../../../interfaces/chart';
 
 @Component({
   selector: 'app-velocidad-grafico',
@@ -9,10 +12,10 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
   templateUrl: './velocidad-grafico.component.html',
   styleUrl: './velocidad-grafico.component.scss'
 })
-export class VelocidadGraficoComponent implements OnInit {
+export class VelocidadGraficoComponent {
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    maintainAspectRatio: false, // Permite controlar mejor el tamaño
+    maintainAspectRatio: false, 
     scales: {
       y: {
         beginAtZero: true,
@@ -43,38 +46,53 @@ export class VelocidadGraficoComponent implements OnInit {
         },
         padding: {
           top: 10,
-          bottom: 50 // Aumenta el margen inferior del título
+          bottom: 50 
         }
       }
     }
   };
 
   public barChartType: ChartType = 'bar';
-  public barChartData: ChartConfiguration['data'] = {
-    labels: [ 'Intermedio', 'Avanzado'],
+  public barChartData = signal<ChartConfiguration['data']>({
+    labels: [],
     datasets: [
       {
-        data: [18, 30], // Velocidades medias en km/h por nivel
+        data: [], 
         label: 'Velocidad Media en Rutas',
         backgroundColor: [
-          // '#00b300',
           '#00aeff',
           '#ff0080'
         ],
         borderColor: [
           '#ffffff00',
-          '#ffffff00',
           '#ffffff00'
         ],
         borderWidth: 2,
         hoverBackgroundColor: [
-          // '#00b300',
           '#33c4ff',
           '#ff3399'
         ]
       }
     ]
-  };
+  });
 
-  ngOnInit(): void {}
+  constructor(private chartsService: ChartsService) {
+    // Cargar los datos al inicializar el componente
+    this.chartsService.getChartByName('velocidad').pipe(take(1)).subscribe({
+      next: (chart: Chart) => {
+        const newData: ChartConfiguration['data'] = {
+          labels: chart.data.map(item => item.label),
+          datasets: [{
+            ...this.barChartData().datasets[0], // Copia del dataset existente
+            data: chart.data.map(item => item.value)
+          }]
+        };
+        this.barChartData.set(newData); // Actualizamos la Signal
+      },
+      error: (error) => {
+        console.error('Error loading chart data:', error);
+        // Opcional: Manejar el error mostrando un mensaje al usuario
+      }
+    });
+  }
 }
