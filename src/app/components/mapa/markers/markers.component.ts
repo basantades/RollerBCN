@@ -12,17 +12,36 @@ import { Ubicacion } from '../../../interfaces/ubicacion';
 export class MarkersComponent implements OnChanges {
   @Input() map!: L.Map; 
   @Input() ubicaciones: Ubicacion[] = [];
-  // private customIcon: L.Icon;
+  private customIcons: { [key: string]: L.Icon } = {};
 
   constructor() {
-    // Definir el ícono personalizado
-    // this.customIcon = L.icon({
-    //   iconUrl: 'assets/images/custom-marker.png',
-    //   iconSize: [32, 32],
-    //   iconAnchor: [16, 32],
-    //   popupAnchor: [0, -32],
-    //   shadowUrl: null
-    // });
+    this.customIcons['basic'] = L.icon({
+      iconUrl: 'assets/img/marker-icon-roller.png',
+      // iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [0, -41],
+      shadowUrl: 'assets/img/marker-shadow.png'
+    });
+    this.customIcons['Iniciación'] = L.icon({
+      iconUrl: 'assets/img/marker-icon-ini.png',
+      iconAnchor: [12, 41],
+      popupAnchor: [0, -41],
+      shadowUrl: 'assets/img/marker-shadow.png'
+    });
+
+    this.customIcons['Intermedio'] = L.icon({
+      iconUrl: 'assets/img/marker-icon-int.png',
+      iconAnchor: [12, 41],
+      popupAnchor: [0, -41],
+      shadowUrl: 'assets/img/marker-shadow.png'
+    });
+
+    this.customIcons['Avanzado'] = L.icon({
+      iconUrl: 'assets/img/marker-icon-adv.png',
+      iconAnchor: [12, 41],
+      popupAnchor: [0, -41],
+      shadowUrl: 'assets/img/marker-shadow.png'
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -32,10 +51,6 @@ export class MarkersComponent implements OnChanges {
     }
   }
 
-  // private addMarkers(): void {
-  //   const marker = L.marker([41.3851, 2.1734]).addTo(this.map);
-  //   marker.bindPopup('<b>¡Hola!</b><br>Este es un marcador');
-  // }
   private addMarkers(): void {
     // Limpiar marcadores existentes 
     this.map.eachLayer((layer) => {
@@ -45,10 +60,16 @@ export class MarkersComponent implements OnChanges {
     });
     if (this.ubicaciones) {
     this.ubicaciones.forEach((ubicacion) => {
-      // const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud], { icon: this.customIcon }).addTo(this.map);
-      const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud]).addTo(this.map);
+      let icon: L.Icon;
+        if (ubicacion.categoria.length === 1) {
+          icon = this.customIcons[ubicacion.categoria[0]] || this.customIcons['basic'];
+        } else {
+          icon = this.customIcons['basic'];
+        }
+      const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud], { icon }).addTo(this.map);
 
-      marker.bindPopup(`<b>${ubicacion.nombre}</b>`);
+      const categoriasTexto = ubicacion.categoria.join(', ');
+      marker.bindPopup(`<b>${ubicacion.nombre}</b> <br> Nivel: ${categoriasTexto}`);
     });
   }
   }
