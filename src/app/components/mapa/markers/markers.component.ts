@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, effect, Input, OnChanges, Signal, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { Ubicacion } from '../../../interfaces/ubicacion';
 
@@ -9,9 +9,11 @@ import { Ubicacion } from '../../../interfaces/ubicacion';
   styleUrl: './markers.component.scss'
 })
 
-export class MarkersComponent implements OnChanges {
+export class MarkersComponent {
   @Input() map!: L.Map; 
-  @Input() ubicaciones: Ubicacion[] = [];
+  @Input() ubicaciones!: Signal<Ubicacion[] | undefined>;
+  @Input() filters!: Signal<{ [key: string]: boolean }>;
+  
   private customIcons: { [key: string]: L.Icon } = {};
 
   constructor() {
@@ -42,13 +44,14 @@ export class MarkersComponent implements OnChanges {
       popupAnchor: [0, -41],
       shadowUrl: 'assets/img/marker-shadow.png'
     });
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // Cuando el mapa esté disponible, añadir los marcadores
-    if ((changes['map'] || changes['ubicaciones']) && this.map) {
+    effect(() => {
+      console.log('Effect disparado - Map:', this.map, 'Ubicaciones:', this.ubicaciones(), 'Filters:', this.filters());
+      if (this.map && this.ubicaciones() && this.ubicaciones()!.length > 0 && this.filters()) {
         this.addMarkers();
-    }
+      }
+    });
+
   }
 
   private addMarkers(): void {
@@ -58,19 +61,21 @@ export class MarkersComponent implements OnChanges {
         this.map.removeLayer(layer);
       }
     });
-    if (this.ubicaciones) {
-    this.ubicaciones.forEach((ubicacion) => {
-      let icon: L.Icon;
-        if (ubicacion.categoria.length === 1) {
-          icon = this.customIcons[ubicacion.categoria[0]] || this.customIcons['basic'];
-        } else {
-          icon = this.customIcons['basic'];
-        }
-      const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud], { icon }).addTo(this.map);
+    this.ubicaciones()!.forEach((ubicacion) => {
+      const shouldShow = ubicacion.categoria.some((cat) => this.filters()[cat]);
+      console.log('Ubicación:', ubicacion.nombre, 'Categorías:', ubicacion.categoria, 'Mostrar:', shouldShow);
+      if (!shouldShow) return;
 
+      let icon: L.Icon;
+      if (ubicacion.categoria.length === 1) {
+        icon = this.customIcons[ubicacion.categoria[0]] || this.customIcons['basic'];
+      } else {
+        icon = this.customIcons['basic'];
+      }
+
+      const marker = L.marker([ubicacion.ubicacion.latitud, ubicacion.ubicacion.longitud], { icon }).addTo(this.map);
       const categoriasTexto = ubicacion.categoria.join(', ');
       marker.bindPopup(`<b>${ubicacion.nombre}</b> <br> Nivel: ${categoriasTexto}`);
     });
-  }
   }
 }

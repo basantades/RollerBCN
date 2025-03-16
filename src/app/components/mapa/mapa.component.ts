@@ -3,11 +3,12 @@ import * as L from 'leaflet';
 import { UbicacionesService } from '../../services/ubicaciones.service';
 import { Ubicacion } from '../../interfaces/ubicacion';
 import { MarkersComponent } from "./markers/markers.component";
+import { FilterComponent } from './filter/filter.component';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-mapa',
-  imports: [MarkersComponent],
+  imports: [MarkersComponent, FilterComponent],
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.scss'
 })
@@ -18,6 +19,11 @@ export class MapaComponent implements AfterViewInit {
   map = signal<L.Map | undefined>(undefined);
   ubicaciones$!: Observable<Ubicacion[]>; 
   ubicaciones = signal<Ubicacion[] | undefined>(undefined);
+  filters = signal<{ [key: string]: boolean }>({
+    'Iniciación': true,
+    'Intermedio': true,
+    'Avanzado': true
+  });
 
   constructor(private ubicacionesService: UbicacionesService) {
     // Efecto para ajustar los límites del mapa cuando cambian las ubicaciones
@@ -33,12 +39,9 @@ export class MapaComponent implements AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
-    this.loadUbicaciones();
-  }
-
   ngAfterViewInit(): void {
     this.initMap();
+    this.loadUbicaciones();
   }
 
   private initMap(): void {
@@ -62,25 +65,18 @@ export class MapaComponent implements AfterViewInit {
       this.ubicaciones$ = this.ubicacionesService.getUbicaciones();
       this.ubicaciones$.subscribe({
         next: (ubicaciones: Ubicacion[]) => {
-          this.ubicaciones.set(ubicaciones); // Actualiza el Signal con las ubicaciones
+          console.log('Ubicaciones cargadas:', ubicaciones);
+          this.ubicaciones.set(ubicaciones);
         },
         error: (error: any) => {
           console.error('Error al cargar las ubicaciones:', error);
         }
       });
     }
+    onFiltersChange(filters: { [key: string]: boolean }): void {
+      this.filters.set({ ...filters }); // Actualiza el Signal
+    }
   }
 
-  // constructor(private ubicacionesService: UbicacionesService) {}
-
-  // ngOnInit() {
-  //   this.ubicacionesService.getUbicaciones().subscribe(
-  //     (data) => {
-  //       this.ubicaciones = data;
-  //     },
-  //     (error) => {
-  //       console.error('Error al obtener ubicaciones:', error);
-  //     }
-  //   );
-  // }
+  
 
