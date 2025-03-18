@@ -1,52 +1,84 @@
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="space-y-6 p-6 bg-white rounded-lg shadow-lg">
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="gap-6 flex flex-col p-6 bg-white rounded-lg shadow-lg">
+
+    <h2 class="text-2xl font-bold mb-4 text-fuchsia-500 text-center">Crear Nuevo Evento</h2>
+  
     <!-- Título -->
-    <input formControlName="title" type="text" placeholder="Título del evento" 
-      class="border p-3 rounded w-full" />
+    <div>
+      <input formControlName="title" type="text" placeholder="Título del evento"
+        class="border p-3 rounded w-full"
+        [class.border-red-500]="eventForm.get('title')?.invalid && eventForm.get('title')?.touched" />
+  
+      @if (eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
+        <p class="text-red-500 text-sm mt-1">El título es obligatorio.</p>
+      }
+    </div>
   
     <!-- Fecha -->
-    <input formControlName="start" type="datetime-local" 
-      class="border p-3 rounded w-full" />
+    <div>
+      <input formControlName="start" type="datetime-local"
+        class="border p-3 rounded w-full"
+        [class.border-red-500]="eventForm.get('start')?.invalid && eventForm.get('start')?.touched" />
+  
+      @if (eventForm.get('start')?.invalid && eventForm.get('start')?.touched) {
+        <p class="text-red-500 text-sm mt-1">La fecha es obligatoria.</p>
+      }
+    </div>
   
     <!-- Descripción -->
     <textarea formControlName="description" rows="4" placeholder="Descripción"
       class="border p-3 rounded w-full"></textarea>
   
     <!-- Ubicación -->
-    <label class="block text-sm font-medium mb-2">Ubicación</label>
-    <select 
-      formControlName="location" 
-      class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
-    >
-      <option disabled selected value="">Selecciona una ubicación</option>
-      @for (location of locations; track location._id) {
-        <option [value]="location._id">{{ location.nombre }}</option>
-      }
-    </select>
+    <div>
+      <select formControlName="location"
+        class="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-fuchsia-500">
+        <option value="" disabled selected>Selecciona ubicación</option>
+        @for (location of locations; track location._id) {
+          <option [value]="location._id">{{ location.nombre }}</option>
+        }
+      </select>
+    </div>
   
-    <!-- Categoría (Radio) -->
-    <div class="space-y-2">
-      <label class="block font-semibold">Categoría:</label>
+<!-- Categoría -->
+<div>
+    <span class="block font-semibold mb-2">Categoría *</span>
+    <div class="flex flex-wrap gap-4">
       @for (cat of categories; track cat) {
-        <label class="inline-flex items-center gap-2">
-          <input type="radio" formControlName="category" [value]="cat"
-            [checked]="cat === 'ruta'"> {{ cat }}
+        <label class="flex items-center gap-3">
+          <input type="checkbox" [value]="cat" (change)="toggleCategory(cat)"
+            class="toggle-checkbox w-5 h-5 text-fuchsia-500" />
+          <span>{{ cat }}</span>
         </label>
       }
     </div>
-  
-    <!-- Nivel (Radio) -->
-    <div class="space-y-2">
-      <label class="block font-semibold">Nivel:</label>
+    @if (eventForm.get('category')?.invalid && eventForm.get('category')?.touched) {
+      <p class="text-red-500 text-sm mt-1">Debes seleccionar al menos una categoría.</p>
+    }
+  </div>
+  <!-- Nivel -->
+  <div>
+    <span class="block font-semibold mb-2">Nivel (opcional)</span>
+    <div class="flex flex-wrap gap-4">
       @for (lvl of levels; track lvl) {
-        <label class="inline-flex items-center gap-2">
-          <input type="radio" formControlName="level" [value]="lvl"> {{ lvl }}
+        <label class="flex items-center gap-3">
+          <input type="checkbox" [value]="lvl" (change)="toggleLevel(lvl)"
+            class="toggle-checkbox w-5 h-5 text-fuchsia-500" />
+          <span>{{ lvl }}</span>
         </label>
       }
     </div>
+  </div>
+  
+    <!-- Error de API -->
+    @if (apiError) {
+      <p class="text-red-500">{{ apiError }}</p>
+    }
   
     <!-- Botón -->
     <button type="submit"
-      class="bg-black text-white px-6 py-3 rounded transition-colors duration-300 hover:bg-fuchsia-600">
-      Añadir evento
+      class="bg-black text-white hover:bg-fuchsia-500 transition-colors duration-300 px-6 py-3 rounded w-full"
+      [disabled]="isLoading">
+      {{ isLoading ? 'Enviando...' : 'Crear Evento' }}
     </button>
   </form>
+  

@@ -18,11 +18,13 @@ import { AddEventComponent } from './add-event/add-event.component';
 })
 export class CalendarioComponent {
 
+
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
     locale: esLocale,
     events: [],
+    timeZone: 'Europe/Madrid', 
     contentHeight: 'auto',
     eventContent: (arg) => {
       const eventTime = arg.event.start
