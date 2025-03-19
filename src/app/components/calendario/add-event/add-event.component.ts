@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { EventsService } from '../../../services/events.service';
@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddEventComponent {
   locations: Ubicacion[] = [];
+  @Output() eventoCreado = new EventEmitter<void>();
 
   eventForm: FormGroup;
   categories = ['clase', 'ruta', 'evento', 'reunion'];
@@ -32,9 +33,9 @@ export class AddEventComponent {
       title: ['', Validators.required],
       start: ['', Validators.required],
       description: [''],
-      location: [''],
-      category: [[], Validators.required], // Multiselección
-      level: [[]] // Opcional
+      location: ['', Validators.required],
+      category: [[], Validators.required], 
+      level: [[]] 
     });
   }
 
@@ -62,7 +63,8 @@ onSubmit() {
       console.log('Evento creado:', res);
       this.toastr.success('Evento creado correctamente', 'Éxito');
       this.eventForm.reset();
-      // this.router.navigate(['/']); 
+      this.eventsService.loadEvents();  
+      this.eventoCreado.emit();
     },
     error: (err) => {
       console.error('Error al crear el evento', err);
