@@ -29,6 +29,9 @@ export class CalendarioComponent {
     events: [],
     timeZone: 'Europe/Madrid', 
     contentHeight: 'auto',
+    eventDidMount: (info) => {
+      info.el.style.cursor = 'pointer';
+    },
     eventClick: (info) => {
       const clickedEvent = this.eventsService.events().find(ev => ev._id === info.event.id);
       if (clickedEvent) {
@@ -37,28 +40,29 @@ export class CalendarioComponent {
         this.showModal = true;
       }
     },
+    eventClassNames: (arg) => {
+      if (arg.event.extendedProps['category']?.includes('ruta')) {
+        return 'ruta-event';
+      } else if (arg.event.extendedProps['category']?.includes('clase')) {
+        return 'clase-event';
+      }
+      return 'default-event';
+    },
+    
     eventContent: (arg) => {
       const eventTime = arg.event.start
         ? new Date(arg.event.start).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
         : '';
-
-        let eventClass = 'default-event'; 
-
-        if (arg.event.extendedProps['category']?.includes('Ruta')) {
-          eventClass = 'ruta-event';
-        } else if (arg.event.extendedProps['category']?.includes('Clase')) {
-          eventClass = 'clase-event';
-        }
-  
-        return {
-          html: `
-        <div class="custom-event ${eventClass}">
-              <div class="event-title">${arg.event.title}</div>
-              <div class="event-time">${eventTime}</div>
-            </div>
-          `
-        };
-    }
+    
+      return {
+        html: `
+          <div class="custom-event">
+            <div class="event-title">${arg.event.title}</div>
+            <div class="event-time">${eventTime}</div>
+          </div>
+        `
+      };
+    },
   };
   
   showModal = false;

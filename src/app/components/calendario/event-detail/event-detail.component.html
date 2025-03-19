@@ -38,4 +38,7 @@
       <p>No hay evento seleccionado.</p>
     }
   </section>
-  
+  <app-delete-event-button
+  [event]="event()"
+  (eventDeleted)="close.emit()"
+></app-delete-event-button>

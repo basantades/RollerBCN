@@ -9,15 +9,6 @@
     @if (modalMode === 'create') {
         <app-add-event (eventoCreado)="onEventoCreado()"></app-add-event>
       } @else {
-        <app-event-detail></app-event-detail>
+        <app-event-detail (close)="closeModal()"></app-event-detail>
       }</app-modal>
 
-<!-- @if (showModal) {
-    <app-modal (close)="closeModal()">
-      @if (modalMode === 'create') {
-        <app-add-event (eventoCreado)="onEventoCreado()"></app-add-event>
-      } @else {
-        <app-event-detail></app-event-detail>
-      }
-    </app-modal>
-  } -->

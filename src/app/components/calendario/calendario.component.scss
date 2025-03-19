@@ -39,13 +39,22 @@
   ::ng-deep .default-event {
     background: linear-gradient(217deg, #1e3a5f, #4c6a91); 
   }
+  ::ng-deep .default-event:hover {
+    background: linear-gradient(217deg, #416799, #6693ce); 
+  }
   
   ::ng-deep .ruta-event {
     background: linear-gradient(217deg, #7928ca, #ff0080); 
   }
+  ::ng-deep .ruta-event:hover {
+    background: linear-gradient(217deg, #ab5df8, #ee5ca5); 
+  }
   
   ::ng-deep .clase-event {
     background: linear-gradient(217deg, #077461, #00b300);
+  }
+  ::ng-deep .clase-event:hover {
+    background: linear-gradient(217deg, #33b6a0, #64e664);
   }
 
   ::ng-deep .event-title {
