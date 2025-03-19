@@ -1,23 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
-import { EventsService } from '../../services/events.service';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import { Event } from '../../interfaces/event';
+import { Event as AppEvent } from '../../interfaces/event';
 import { AddEventComponent } from './add-event/add-event.component';
+import { EventsService } from '../../services/events.service';
+import { ModalComponent } from './modal/modal.component';
 
 
 
 @Component({
   selector: 'app-calendario',
-  imports: [FullCalendarModule, AddEventComponent],
+  imports: [FullCalendarModule, AddEventComponent, ModalComponent],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
 })
 export class CalendarioComponent {
 
+  private eventsService = inject(EventsService);
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -50,29 +52,33 @@ export class CalendarioComponent {
     }
   };
   
-  constructor(private eventsService: EventsService) { }
+  showModal = false;
+  openModal() {
+    this.showModal = true;
+  }
+  closeModal() {
+    this.showModal = false;
+  }
+  onEventoCreado() {
+    this.closeModal();
+    this.eventsService.loadEvents();
+  }
 
-  ngOnInit() {
-    this.eventsService.getEvents().subscribe({
-      next: (data: Event[]) => {  // Tipado aquí
-        // Mapea los datos de la API al formato esperado por FullCalendar
-        this.calendarOptions.events = data.map(event => ({
-          id: event._id, // Importante para identificar el evento
-          title: event.title,
-          start: event.start,
-          end: event.start, // Puedes ajustar esto si tienes una fecha de finalización diferente
-          description: event.description,
-          location: event.location,
-          category: event.category,
-          level: event.level,
-          extendedProps: {
-            category: event.category
-          }
+  constructor() {
+    // 👇 Aquí SÍ está en contexto de inyección
+    this.eventsService.loadEvents();
 
-        }));
-      },
-      error: (error) => console.error('Error al obtener eventos:', error)
+    effect(() => {
+      const events = this.eventsService.events();
+      this.calendarOptions.events = events.map(event => ({
+        id: event._id,
+        title: event.title,
+        start: event.start,
+        extendedProps: { category: event.category }
+      }));
     });
   }
 
+
+  
 }
