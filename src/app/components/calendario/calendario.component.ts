@@ -43,6 +43,8 @@ export class CalendarioComponent {
     eventClassNames: (arg) => {
       if (arg.event.extendedProps['category']?.includes('ruta')) {
         return 'ruta-event';
+      } else if (arg.event.extendedProps['category']?.includes('evento')) {
+          return 'evento-event';
       } else if (arg.event.extendedProps['category']?.includes('clase')) {
         return 'clase-event';
       }
