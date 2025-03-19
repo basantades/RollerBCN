@@ -8,8 +8,16 @@
 <app-modal [isOpen]="showModal" (close)="closeModal()">
   @if (modalMode === 'create') {
     <app-add-event (eventoCreado)="onEventoCreado()"></app-add-event>
-  } @else {
-    <app-event-detail (close)="closeModal()" (edit)="startEditEvent()"></app-event-detail>
-
+  } @else if (modalMode === 'detail') {
+    <app-event-detail 
+      (close)="closeModal()" 
+      (edit)="startEditEvent()">
+    </app-event-detail>
+  } @else if (modalMode === 'edit' && selectedEvent) {
+    <app-edit-event 
+      [event]="selectedEvent"
+      (eventoActualizado)="onEventoActualizado()"
+      (cancel)="closeModal()">
+    </app-edit-event>
   }
 </app-modal>

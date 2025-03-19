@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Ubicacion } from '../../../interfaces/ubicacion';
 import { EventsApiService } from '../../../services/EventsApiService';
 import { UbicacionesService } from '../../../services/ubicaciones.service';
 import { ToastrService } from 'ngx-toastr';
+import { Event as AppEvent } from '../../../interfaces/event';
+
+
 
 @Component({
   selector: 'app-edit-event',
@@ -13,8 +16,8 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './edit-event.component.html',
   styleUrl: './edit-event.component.scss'
 })
-export class EditEventComponent implements OnInit {
-  @Input() event!: any; // Ajusta el tipo si tienes una interfaz
+export class EditEventComponent  implements OnInit, OnChanges {
+  @Input() event!: AppEvent;
   @Output() eventoActualizado = new EventEmitter<void>();
 
   eventForm: FormGroup;
@@ -49,13 +52,27 @@ export class EditEventComponent implements OnInit {
     // Pre-carga de datos al formulario
     this.eventForm.patchValue({
       title: this.event.title,
-      start: this.event.start.slice(0, 16),
+      start: new Date(this.event.start).toISOString().slice(0, 16),
       description: this.event.description,
       location: this.event.location,
       category: this.event.category,
       level: this.event.level
     });
   }
+
+  ngOnChanges() {
+    if (this.event) {
+      this.eventForm.patchValue({
+        title: this.event.title,
+        start: new Date(this.event.start).toISOString().slice(0, 16),
+        description: this.event.description,
+        location: this.event.location,
+        category: this.event.category,
+        level: this.event.level
+      });
+    }
+  }
+  
 
   public toggleCategory(value: string) {
     const control = this.eventForm.get('category');

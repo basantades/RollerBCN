@@ -9,12 +9,13 @@ import { AddEventComponent } from './add-event/add-event.component';
 import { EventsService } from '../../services/events.service';
 import { ModalComponent } from './modal/modal.component';
 import { EventDetailComponent } from "./event-detail/event-detail.component";
+import { EditEventComponent } from "./edit-event/edit-event.component";
 
 
 
 @Component({
   selector: 'app-calendario',
-  imports: [FullCalendarModule, AddEventComponent, ModalComponent, EventDetailComponent],
+  imports: [FullCalendarModule, AddEventComponent, ModalComponent, EventDetailComponent, EditEventComponent],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
 })
@@ -69,6 +70,8 @@ export class CalendarioComponent {
   
   showModal = false;
   modalMode: 'create' | 'detail' | 'edit' = 'create';
+  selectedEvent: AppEvent | null = null;
+
 
   openModal() {
     this.showModal = true;
@@ -88,7 +91,12 @@ export class CalendarioComponent {
   }
 
   startEditEvent() {
+    this.selectedEvent = this.eventsService.getSelectedEvent(); // Asegurarte de tenerlo
     this.modalMode = 'edit';
+  }
+  onEventoActualizado() {
+    this.closeModal();
+    this.eventsService.loadEvents();
   }
 
   constructor() {

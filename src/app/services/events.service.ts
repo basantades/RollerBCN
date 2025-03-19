@@ -41,6 +41,10 @@ export class EventsService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+  getSelectedEvent() {
+    return this.selectedEvent();
+  }
+
   private handleError(error: HttpErrorResponse) {
     console.error('Error en la API:', error);
     // Puedes personalizar el mensaje o diferenciar entre 400/500 aquí
