@@ -1,1 +1,41 @@
-<p>event-detail works!</p>
+<section class="p-4 bg-white w-full max-w-md">
+    @if (event()) {
+      <h2 class="text-xl font-bold mb-4">{{ event()!.title }}</h2>
+      <p class="mb-4">{{ event()!.description }}</p>
+  
+      <!-- Día -->
+      <div class="flex items-center mb-4">
+        <span class="mr-2">📅 <strong>Día:</strong></span>
+        <span>{{ event()!.start | date: 'dd/MM/yyyy' }}</span>
+      </div>
+  
+      <!-- Hora -->
+      <div class="flex items-center mb-4">
+        <span class="mr-2">⏰ <strong>Hora:</strong></span>
+        <span>{{ event()!.start | date: 'HH:mm' }}</span>
+      </div>
+  
+      <!-- Ubicación -->
+      <div class="flex items-center mb-4">
+        <span class="mr-2">📍 <strong>Ubicación:</strong></span>
+        <span>{{ getUbicacionNombreById(event()!.location) }}</span>
+      </div>
+  
+      <!-- Categoría -->
+      <div class="flex items-center mb-4">
+        <span class="mr-2">🏷 <strong>Categoría:</strong></span>
+        <span>{{ event()!.category.join(', ') }}</span>
+      </div>
+  
+      <!-- Nivel -->
+      @if (event()?.level?.length) {
+        <div class="flex items-center mb-4">
+          <span class="mr-2">⭐ <strong>Nivel:</strong></span>
+          <span>{{ event()!.level!.join(', ') }}</span>
+        </div>
+      }
+    } @else {
+      <p>No hay evento seleccionado.</p>
+    }
+  </section>
+  

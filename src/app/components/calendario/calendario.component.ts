@@ -8,12 +8,13 @@ import { Event as AppEvent } from '../../interfaces/event';
 import { AddEventComponent } from './add-event/add-event.component';
 import { EventsService } from '../../services/events.service';
 import { ModalComponent } from './modal/modal.component';
+import { EventDetailComponent } from "./event-detail/event-detail.component";
 
 
 
 @Component({
   selector: 'app-calendario',
-  imports: [FullCalendarModule, AddEventComponent, ModalComponent],
+  imports: [FullCalendarModule, AddEventComponent, ModalComponent, EventDetailComponent],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
 })
@@ -28,6 +29,14 @@ export class CalendarioComponent {
     events: [],
     timeZone: 'Europe/Madrid', 
     contentHeight: 'auto',
+    eventClick: (info) => {
+      const clickedEvent = this.eventsService.events().find(ev => ev._id === info.event.id);
+      if (clickedEvent) {
+        this.eventsService.setSelectedEvent(clickedEvent); 
+        this.modalMode = 'detail'; 
+        this.showModal = true;
+      }
+    },
     eventContent: (arg) => {
       const eventTime = arg.event.start
         ? new Date(arg.event.start).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
@@ -53,6 +62,8 @@ export class CalendarioComponent {
   };
   
   showModal = false;
+  modalMode: 'create' | 'detail' = 'create';
+
   openModal() {
     this.showModal = true;
   }
@@ -64,6 +75,13 @@ export class CalendarioComponent {
     this.eventsService.loadEvents();
   }
 
+  
+  openCreateEventModal() {
+    this.modalMode = 'create';
+    this.showModal = true;
+  }
+
+  
   constructor() {
     // 👇 Aquí SÍ está en contexto de inyección
     this.eventsService.loadEvents();

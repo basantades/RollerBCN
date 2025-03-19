@@ -14,6 +14,8 @@ export class EventsService {
   private apiUrl = `${API_BASE_URL}/events`;
 
   events = signal<Event[]>([]);
+  selectedEvent = signal<Event | null>(null);
+
 
   constructor(private http: HttpClient) { }
 
@@ -24,9 +26,11 @@ export class EventsService {
     });
   }
 
-  // getEvents(): Observable<Event[]> {
-  //   return this.http.get<Event[]>(this.apiUrl);
-  // }
+
+  setSelectedEvent(event: Event) {
+    this.selectedEvent.set(event);
+  }
+
   createEvent(event: Event): Observable<Event> {
     return this.http.post<Event>(this.apiUrl, event).pipe(
       catchError(this.handleError)
