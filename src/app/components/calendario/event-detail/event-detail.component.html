@@ -38,7 +38,14 @@
       <p>No hay evento seleccionado.</p>
     }
   </section>
-  <app-delete-event-button
-  [event]="event()"
-  (eventDeleted)="close.emit()"
+  <div class="flex justify-end mt-4 gap-4">
+    <app-edit-event-button 
+  [event]="event()" 
+  (editEvent)="emitEdit()">
+</app-edit-event-button>
+
+<app-delete-event-button
+[event]="event()"
+(eventDeleted)="close.emit()"
 ></app-delete-event-button>
+  </div>

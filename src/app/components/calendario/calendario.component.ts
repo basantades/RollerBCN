@@ -68,7 +68,7 @@ export class CalendarioComponent {
   };
   
   showModal = false;
-  modalMode: 'create' | 'detail' = 'create';
+  modalMode: 'create' | 'detail' | 'edit' = 'create';
 
   openModal() {
     this.showModal = true;
@@ -87,7 +87,10 @@ export class CalendarioComponent {
     this.showModal = true;
   }
 
-  
+  startEditEvent() {
+    this.modalMode = 'edit';
+  }
+
   constructor() {
     // 👇 Aquí SÍ está en contexto de inyección
     this.eventsService.loadEvents();
