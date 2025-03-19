@@ -1,0 +1,92 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="gap-6 flex flex-col p-6 bg-white">
+
+    <h2 class="text-2xl font-bold mb-4 text-fuchsia-500 text-center">Editar Evento</h2>
+  
+    <!-- Título -->
+    <div>
+      <input formControlName="title" type="text" placeholder="Título del evento"
+        class="border p-3 rounded w-full"
+        [class.border-red-500]="eventForm.get('title')?.invalid && eventForm.get('title')?.touched" />
+  
+      @if (eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
+        <p class="text-red-500 text-sm mt-1">El título es obligatorio.</p>
+      }
+    </div>
+  
+    <!-- Fecha -->
+    <div>
+      <input formControlName="start" type="datetime-local"
+        class="border p-3 rounded w-full"
+        [class.border-red-500]="eventForm.get('start')?.invalid && eventForm.get('start')?.touched" />
+  
+      @if (eventForm.get('start')?.invalid && eventForm.get('start')?.touched) {
+        <p class="text-red-500 text-sm mt-1">La fecha es obligatoria.</p>
+      }
+    </div>
+  
+    <!-- Descripción -->
+    <textarea formControlName="description" rows="4" placeholder="Descripción"
+      class="border p-3 rounded w-full"></textarea>
+  
+    <!-- Ubicación -->
+    <div>
+      <select formControlName="location"
+        class="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
+        [class.border-red-500]="eventForm.get('location')?.invalid && eventForm.get('location')?.touched">
+        <option value="" disabled selected>Selecciona ubicación</option>
+        @for (location of locations; track location._id) {
+          <option [value]="location._id">{{ location.nombre }}</option>
+        }
+      </select>
+  
+      @if (eventForm.get('location')?.invalid && eventForm.get('location')?.touched) {
+        <p class="text-red-500 text-sm mt-1">La ubicación es obligatoria.</p>
+      }
+    </div>
+  
+    <!-- Categoría -->
+    <div>
+      <span class="block font-semibold mb-2">Categoría *</span>
+      <div class="flex flex-wrap gap-4">
+        @for (cat of categories; track cat) {
+          <label class="flex items-center gap-3">
+            <input type="checkbox" [value]="cat" (change)="toggleCategory(cat)"
+              [checked]="eventForm.get('category')?.value.includes(cat)"
+              class="toggle-checkbox w-5 h-5 text-fuchsia-500" />
+            <span>{{ cat }}</span>
+          </label>
+        }
+      </div>
+      @if (eventForm.get('category')?.invalid && eventForm.get('category')?.touched) {
+        <p class="text-red-500 text-sm mt-1">Debes seleccionar al menos una categoría.</p>
+      }
+    </div>
+  
+    <!-- Nivel -->
+    <div>
+      <span class="block font-semibold mb-2">Nivel (opcional)</span>
+      <div class="flex flex-wrap gap-4">
+        @for (lvl of levels; track lvl) {
+          <label class="flex items-center gap-3">
+            <input type="checkbox" [value]="lvl" (change)="toggleLevel(lvl)"
+              [checked]="eventForm.get('level')?.value.includes(lvl)"
+              class="toggle-checkbox w-5 h-5 text-fuchsia-500" />
+            <span>{{ lvl }}</span>
+          </label>
+        }
+      </div>
+    </div>
+  
+    <!-- Error de API -->
+    @if (apiError) {
+      <p class="text-red-500">{{ apiError }}</p>
+    }
+  
+    <!-- Botón -->
+    <button type="submit"
+      class="bg-black text-white hover:bg-fuchsia-500 duration-300 px-6 py-3 rounded w-full transition cursor-pointer"
+      [disabled]="isLoading">
+      {{ isLoading ? 'Actualizando...' : 'Actualizar Evento' }}
+    </button>
+  </form>
+  
