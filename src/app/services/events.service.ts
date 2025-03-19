@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'; // Importa HttpErrorResponse
 import { catchError, tap, finalize } from 'rxjs/operators'; // Importa los operadores
 import { Observable, throwError } from 'rxjs';
@@ -13,11 +13,20 @@ export class EventsService {
 
   private apiUrl = `${API_BASE_URL}/events`;
 
+  events = signal<Event[]>([]);
+
   constructor(private http: HttpClient) { }
 
-  getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(this.apiUrl); // Petición GET a la API
+  loadEvents() {
+    this.http.get<Event[]>(this.apiUrl).subscribe({
+      next: (data) => this.events.set(data),
+      error: (err) => console.error('Error al cargar eventos:', err)
+    });
   }
+
+  // getEvents(): Observable<Event[]> {
+  //   return this.http.get<Event[]>(this.apiUrl);
+  // }
   createEvent(event: Event): Observable<Event> {
     return this.http.post<Event>(this.apiUrl, event).pipe(
       catchError(this.handleError)
