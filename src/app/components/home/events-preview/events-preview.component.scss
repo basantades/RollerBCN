@@ -1,0 +1,33 @@
+:host ::ng-deep .default-event {
+    background: linear-gradient(217deg, #1e3a5f, #4c6a91);
+  }
+  
+  :host ::ng-deep .ruta-event {
+    background: linear-gradient(217deg, #7928ca, #ff0080);
+  }
+  
+  :host ::ng-deep .clase-event {
+    background: linear-gradient(217deg, #077461, #00b300);
+  }
+  
+  :host ::ng-deep .evento-event {
+    background: linear-gradient(217deg, #db470c, #ec8815);
+  }
+  
+  /* Hover solo si luego haces clickable la card */
+  :host ::ng-deep .default-event:hover {
+    background: linear-gradient(217deg, #416799, #6693ce);
+  }
+  
+  :host ::ng-deep .ruta-event:hover {
+    background: linear-gradient(217deg, #ab5df8, #ee5ca5);
+  }
+  
+  :host ::ng-deep .clase-event:hover {
+    background: linear-gradient(217deg, #33b6a0, #64e664);
+  }
+  
+  :host ::ng-deep .evento-event:hover {
+    background: linear-gradient(217deg, rgb(245, 131, 65), #f1a144);
+  }
+  
