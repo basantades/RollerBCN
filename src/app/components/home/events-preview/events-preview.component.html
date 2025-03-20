@@ -1,5 +1,6 @@
-  <section class="max-w-[1200px] mx-auto px-4 py-8">
-    <h2 class="text-3xl font-bold mb-6 text-center">Próximos Eventos</h2>
+  <section id="events-preview" class="max-w-[1200px] mx-auto px-4 py-8 min-h-[calc(100vh-136px)] flex flex-col justify-center items-center p-8">
+
+    <h2 class="text-3xl font-bold mb-6 text-center text-white">Próximos Eventos</h2>
 
 
   <div class="flex flex-col lg:flex-row gap-6">
@@ -21,7 +22,7 @@
         @for (event of upcomingEvents(); track event._id) {
             <div class="bg-white rounded-xl shadow-lg flex-1 flex flex-col">
               <!-- Título con degradado según categoría -->
-              <div class="p-4 text-white font-bold text-2xl rounded-t-xl"
+              <div class="p-4 text-white font-bold text-xl rounded-t-xl"
               [class]="getCategoryClass(event)"
                    >
                 {{ event.title }}
@@ -30,8 +31,9 @@
               <!-- Info del evento -->
               <div class="p-4 flex flex-col gap-2 text-gray-700">
                 <p>{{ event.description }}</p>
-                <p><span class="font-bold">Fecha:</span> {{ event.start | date:'mediumDate' }}</p>
-                <p><span class="font-bold">Ubicación:</span> {{ event.location }}</p>
+                <p><span class="font-bold">Fecha:</span> {{ event.start | date:'dd/MM/yyyy' }}</p>
+                <p><span class="font-bold">Hora:</span> {{ event.start | date: 'HH:mm' }}</p>
+                <p><span class="font-bold">Ubicación:</span> {{ getUbicacionNombreById(event.location) }}</p>
                 <p><span class="font-bold">Categoría:</span> {{ event.category.join(', ') }}</p>
                 <p><span class="font-bold">Nivel:</span> {{ event.level }}</p>
               </div>

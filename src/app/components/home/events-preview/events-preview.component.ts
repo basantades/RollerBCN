@@ -1,5 +1,6 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { EventsService } from '../../../services/events.service';
+import { UbicacionesService } from '../../../services/ubicaciones.service';
 import { Event } from '../../../interfaces/event';
 import { DatePipe } from '@angular/common';
 
@@ -12,6 +13,12 @@ import { DatePipe } from '@angular/common';
 })
 export class EventsPreviewComponent {
 
+    private ubicacionesService = inject(UbicacionesService);
+    
+    constructor(public eventsService: EventsService) {
+      this.ubicacionesService.loadUbicaciones();
+    }
+
   readonly upcomingEvents = computed(() => {
     const now = new Date();
     return this.eventsService.events()
@@ -20,6 +27,11 @@ export class EventsPreviewComponent {
       .slice(0, 3);
   });
 
+  getUbicacionNombreById(id: string | undefined): string {
+    if (!id) return 'Ubicación desconocida';
+    return this.ubicacionesService.getUbicacionNombreById(id) ?? 'Ubicación desconocida';
+  }
+
   getCategoryClass(event: Event): string {
     if (event.category?.includes('ruta')) return 'ruta-event';
     if (event.category?.includes('clase')) return 'clase-event';
@@ -27,5 +39,5 @@ export class EventsPreviewComponent {
     return 'default-event';
   }
 
-  constructor(public eventsService: EventsService) {}
+
 }
