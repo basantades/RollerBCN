@@ -3,22 +3,30 @@
     <!-- Espacio superior del tamaño del icono -->
     <div class="h-10 hidden md:block"></div>
   
-    <!-- Contenido central -->
-    <div class="flex flex-col grow  justify-center items-center text-center">
-      <img src="assets/img/RollerBCN-logo.svg" alt="RollerBCN Logo" class="w-2/3 md:w-1/2 mb-6">
+    <div class="flex flex-col grow justify-center items-center text-center text-white">
+        <img 
+          src="assets/img/RollerBCN-logo.svg" 
+          alt="RollerBCN Logo" 
+          class="w-2/3 md:w-1/2 mb-6 logo-pop"
+        >
+      
+        <h1 
+          class="text-3xl md:text-4xl font-bold fade-in" 
+          style="animation-delay: 1.5s;"
+        >
+          Patina, diviértete y conecta en Barcelona
+        </h1>
+      
+        <p 
+          class="mt-4 text-lg md:text-xl max-w-3xl fade-in" 
+          style="animation-delay: 2.3s;"
+        >
+          RollerBCN es tu punto de encuentro si te apasionan los patines en línea. 
+          Únete a rutas por la ciudad, mejora tu técnica en nuestras clases y descubre 
+          nuevas ubicaciones para rodar con más gente como tú. ¡Barcelona sobre ruedas te espera!
+        </p>
+      </div>
   
-      <h1 class="text-3xl md:text-4xl font-bold">
-        Patina, diviértete y conecta en Barcelona 
-      </h1>
-  
-      <p class="mt-4 text-lg md:text-xl max-w-3xl">
-        RollerBCN es tu punto de encuentro si te apasionan los patines en línea. 
-        Únete a rutas por la ciudad, mejora tu técnica en nuestras clases y descubre 
-        nuevas ubicaciones para rodar con más gente como tú. ¡Barcelona sobre ruedas te espera!
-      </p>
-    </div>
-  
-    <!-- Icono de flecha al final -->
     <div class="h-20 flex items-end">
       <div class="cursor-pointer animate-bounce" (click)="scrollToEvents()">
         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

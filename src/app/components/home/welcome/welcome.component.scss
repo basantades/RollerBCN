@@ -1,3 +1,43 @@
 :host {
     display: block;
   }
+
+  /* Animación del logo */
+@keyframes logoPop {
+    0% {
+      transform: scale(0.1);
+      opacity: 0;
+    }
+    40% {
+      transform: scale(1.4);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .logo-pop {
+    opacity: 0; 
+    animation: logoPop 1s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  
+  
+  .fade-in {
+    opacity: 0; 
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

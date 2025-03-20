@@ -3,18 +3,20 @@ import { EventsService } from '../../../services/events.service';
 import { UbicacionesService } from '../../../services/ubicaciones.service';
 import { Event } from '../../../interfaces/event';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-events-preview',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './events-preview.component.html',
   styleUrl: './events-preview.component.scss'
 })
 export class EventsPreviewComponent {
 
     private ubicacionesService = inject(UbicacionesService);
-    
+
     constructor(public eventsService: EventsService) {
       this.ubicacionesService.loadUbicaciones();
     }
