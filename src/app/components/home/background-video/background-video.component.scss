@@ -11,9 +11,10 @@
     left: 0;
 }
 video {
-    min-width: 100%;
-    min-height: 100vh;
-    height: max-content;
+    // min-width: 100%;
+    // min-height: 100vh;
+    // height: max-content;
+    height: 140%;
     object-fit: cover;
     z-index: -2;
   }
