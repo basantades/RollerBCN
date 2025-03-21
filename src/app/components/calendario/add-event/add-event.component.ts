@@ -52,13 +52,10 @@ onSubmit() {
   this.isLoading = true;
   this.apiError = '';
 
- // ✅ Clonamos el form value para no tocar el original
- const formValue = { ...this.eventForm.value };
+  const formValue = { ...this.eventForm.value };
+  formValue.start = new Date(formValue.start).toISOString();
 
- // ✅ Convertimos la fecha a formato ISO UTC
- formValue.start = new Date(formValue.start).toISOString();
- 
-  this.eventsService.createEvent(this.eventForm.value).subscribe({
+  this.eventsService.createEvent(formValue).subscribe({
     next: (res) => {
       console.log('Evento creado:', res);
       this.toastr.success('Evento creado correctamente', 'Éxito');

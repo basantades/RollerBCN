@@ -48,23 +48,25 @@ export class EditEventComponent  implements OnInit, OnChanges {
     this.ubicacionesService.getUbicaciones().subscribe((data) => {
       this.locations = data.sort((a, b) => a.nombre.localeCompare(b.nombre));
     });
-
-    // Pre-carga de datos al formulario
-    this.eventForm.patchValue({
-      title: this.event.title,
-      start: new Date(this.event.start).toISOString().slice(0, 16),
-      description: this.event.description,
-      location: this.event.location,
-      category: this.event.category,
-      level: this.event.level
-    });
+  
+    this.loadEventData();
   }
 
+
   ngOnChanges() {
+    this.loadEventData();
+  }
+  
+  loadEventData() {
     if (this.event) {
+      const utcDate = new Date(this.event.start);
+      const localISO = new Date(utcDate.getTime() - utcDate.getTimezoneOffset() * 60000)
+                          .toISOString()
+                          .slice(0, 16);
+  
       this.eventForm.patchValue({
         title: this.event.title,
-        start: new Date(this.event.start).toISOString().slice(0, 16),
+        start: localISO,
         description: this.event.description,
         location: this.event.location,
         category: this.event.category,
@@ -72,7 +74,6 @@ export class EditEventComponent  implements OnInit, OnChanges {
       });
     }
   }
-  
 
   public toggleCategory(value: string) {
     const control = this.eventForm.get('category');
@@ -99,14 +100,15 @@ export class EditEventComponent  implements OnInit, OnChanges {
       this.eventForm.markAllAsTouched();
       return;
     }
-
+  
     this.isLoading = true;
     this.apiError = '';
-    const formValue = {
-      ...this.eventForm.value,
-      start: new Date(this.eventForm.value.start).toISOString(),
+  
+    const formValue = { 
+      ...this.eventForm.value, 
+      start: new Date(this.eventForm.value.start).toISOString() 
     };
-
+  
     this.eventsService.updateEvent({ ...formValue, _id: this.event._id }).subscribe({
       next: () => {
         this.toastr.success('Evento actualizado correctamente', 'Éxito');

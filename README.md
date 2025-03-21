@@ -1,59 +1,78 @@
 # RollerBCN
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+<p align="center">
+  <img src="public/assets/img/rollerbcn.jpg" alt="Capturas de pantalla del proyecto RollerBCN" />
+</p>
 
-## Development server
+## 📄 Descripción
 
-To start a local development server, run:
+**RollerBCN** es una aplicación web desarrollada con **Angular 19** dedicada al patinaje en Barcelona. La plataforma permite explorar ubicaciones para patinar en la ciudad, visualizar eventos en un calendario interactivo y analizar estadísticas mediante gráficos.
 
+## ✨ Características
+
+- **Mapa Interactivo con Leaflet**: Consulta ubicaciones para patinar con filtros por categoría.
+- **Calendario con FullCalendar**: Visualiza y gestiona eventos de la comunidad.
+- **CRUD de Eventos**: Crea, edita y elimina eventos almacenados en una API propia.
+- **Gráficos con Chart.js**: Visualiza estadísticas de los eventos y ubicaciones.
+- **API propia**: Los datos se obtienen de una API REST desarrollada en Node.js, Express y MongoDB. [Repositorio Backend-RollerBCN](https://github.com/basantades/Backend-RollerBCN)
+- **Diseño moderno y responsive con Tailwind CSS**.
+- **Despliegue en Vercel**: Disponible online en [https://rollerbcn.vercel.app](https://rollerbcn.vercel.app)
+
+## 💻 Tecnologías Utilizadas
+
+- **Angular CLI** versión 19.
+- **Tailwind CSS** para el diseño y la maquetación.
+- **Leaflet.js** para el mapa interactivo.
+- **FullCalendar** para el calendario de eventos.
+- **Chart.js** para la generación de gráficos.
+
+## 📋 Requisitos
+
+- **Node.js** y **npm** instalados en tu sistema. Descárgalos desde [nodejs.org](https://nodejs.org/).
+
+## 🛠️ Instalación
+
+### **✔️ Instalación paso a paso**
+
+**1️⃣ Clona este repositorio:**
+```bash
+git clone https://github.com/basantades/RollerBCN.git
+```
+
+**2️⃣ Ingresa al directorio del proyecto:**
+```bash
+cd RollerBCN
+```
+
+**3️⃣ Instala las dependencias:**
+```bash
+npm install
+```
+
+## ▶️ Ejecución
+
+Para iniciar la aplicación en desarrollo:
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abre tu navegador y accede a `http://localhost:4200/`.
 
-## Code scaffolding
+La API se encuentra desplegada en Railway:
+[https://backend-rollerbcn-production.up.railway.app/](https://backend-rollerbcn-production.up.railway.app/)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Su código fuente está disponible en:
+[https://github.com/basantades/Backend-RollerBCN](https://github.com/basantades/Backend-RollerBCN)
 
-```bash
-ng generate component component-name
-```
+## 🤝 Contribuciones
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Si deseas colaborar en el proyecto, sigue estos pasos:
 
-```bash
-ng generate --help
-```
+1. Crea un **issue** para reportar errores o sugerir mejoras.
+2. Envía un **pull request** con tus cambios.
+3. Sigue las **buenas prácticas** de desarrollo y realiza pruebas antes de enviar tus cambios.
 
-## Building
+---
 
-To build the project run:
+Este README proporciona una guía básica para configurar, utilizar y contribuir al proyecto **RollerBCN**.
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
